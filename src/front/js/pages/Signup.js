@@ -15,7 +15,7 @@ export const Signup = () => {
   const registerUser = async () => {
 
     const response = await fetch(
-      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev",
+      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/",
       {
         method: "POST",
         headers: {
@@ -70,7 +70,7 @@ export const Signup = () => {
           <label for="floatingPassword">Password</label>
         </div>
         <input type="submit" value={"register"} className="btn btn-success mt-4"></input>
-        <Link to="/">
+        <Link to="/login">
         <button className="btn btn-info mx-3 mt-4">login</button>
         </Link>
       </form>
