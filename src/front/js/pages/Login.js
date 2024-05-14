@@ -7,6 +7,7 @@ export const Login = () => {
   const { store, actions } = useContext(Context);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const navigate = useNavigate();
 
   const loginUser = async () => {
@@ -31,10 +32,12 @@ export const Login = () => {
     } else {
       console.log("Error:", data);
     }
-
   };
 
+
+
   return (
+
     <div className="container text-center mt-5">
       <h1>Login page</h1>
       <form

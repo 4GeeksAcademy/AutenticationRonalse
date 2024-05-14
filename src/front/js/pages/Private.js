@@ -9,26 +9,12 @@ export const Private = () => {
 
   const token = localStorage.getItem("token");
 
-
+  setEmail= store.setEmail,
+  
   useEffect(() => {
-	const gettingInfo = async () => {
-		const response = await fetch(
-		  "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/private",
-		  {
-			method: "GET",
-			headers: {
-			  "Content-Type": "application/json",
-			  Authorization: `Bearer ${token}`,
-			},
-		  }
-		);
 
-		const data = await response.json();
-		setEmail(data.email)
-		console.log(data.email, "This is the email of the user")
-	  };
-
-	  gettingInfo()
+    actions.gettingInfo()
+		
 	  }, [])
 
   return (

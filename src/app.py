@@ -13,6 +13,7 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, JWTManager
 
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -21,9 +22,7 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "adios-coroto"  # Change this "super secret" with something else!
-jwt = JWTManager(app)
+
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -64,7 +63,6 @@ def sitemap():
 
 # any other endpoint will try to serve it like a static file
 
-
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):
@@ -73,9 +71,12 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "adios-coroto"  # Change this "super secret" with something else!
+jwt = JWTManager(app)
 
 # REGISTER ENDPOINT
-@app.route('/singup', methods=["POST"])
+@app.route('/signup', methods=["POST"])
 def register_user():
     user_email = request.json.get("email", None)
     user_password = request.json.get("password", None)
@@ -108,28 +109,6 @@ def user_login():
 
 
 
-# GETTING ALL THE USERS
-@app.route("/users", methods=["GET"])
-def get_all_users():
-    all_users = User.query.all()
-    mapped_users = list(map(lambda index: index.serialize(), all_users))
-
-    response_body = jsonify(mapped_users)
-    return response_body, 200
-
-
-
-# DELETING AN USER
-@app.route("/users/<user_id>", methods=["DELETE"])
-def delete_user(user_id):
-   find_user = User.query.get(user_id)
-   
-   if find_user is None:
-        return jsonify({"Error": "User not found"})
-   db.session.delete(find_user)
-   db.session.commit()
-
-   return jsonify({"Msg": "User successfully deleted"}), 200
 
 
 # ACCESSING USER'S PRIVATE PAGE

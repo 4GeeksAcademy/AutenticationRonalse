@@ -18,7 +18,7 @@ export const Home = () => {
 				<Link to="/login">
 					<button className="btn btn-warning mx-3"> login </button>
 				</Link>
-				<Link to="/register">
+				<Link to="/signup">
 					<button className="btn btn-success"> register </button>
 				</Link>
 			</div>
