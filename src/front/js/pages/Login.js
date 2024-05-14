@@ -12,7 +12,7 @@ export const Login = () => {
 
   const loginUser = async () => {
     const response = await fetch(
-      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/",
+      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/login",
       {
         method: "POST",
         headers: {

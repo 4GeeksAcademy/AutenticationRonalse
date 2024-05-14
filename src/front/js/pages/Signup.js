@@ -15,7 +15,7 @@ export const Signup = () => {
   const registerUser = async () => {
 
     const response = await fetch(
-      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/",
+      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/signup",
       {
         method: "POST",
         headers: {
@@ -29,7 +29,7 @@ export const Signup = () => {
     );
     const data = await response.json();
     if (response.ok) {
-      navigate('/');
+      navigate('/login');
     } else {
       console.log("Error:", data);
     }

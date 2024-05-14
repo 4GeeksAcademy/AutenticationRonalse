@@ -46,7 +46,7 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
-
+CORS(app)
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -99,15 +99,13 @@ def user_login():
     user_email = request.json.get("email", None)
     user_password = request.json.get("password", None)
 
-    user = User.query.filter_by(email = user_email, password = user_password).first()
+    user = User.filter.query(email = user_email, password = user_password).first()
 
     if user is None:
         return jsonify({"Error": "Wrong email or password"}), 401
     
     token = create_access_token(identity= user.id)
-    return jsonify({"response": "Successfully logged in", "token": token, "email": user.email}), 200
-
-
+    return jsonify({"response": "Successfully logged in", "token": token, "user_id" : user.id}), 200
 
 
 
@@ -116,8 +114,17 @@ def user_login():
 @jwt_required()
 def show_email():
     current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
+    user = User.filter.get(current_user_id)
     return jsonify({"email": user.email, "id": user.id, "response": "That is your data up there!"}), 200
+
+# GETTING ALL THE USERS
+@app.route("/users", methods=["GET"])
+def get_all_users():
+    all_users = User.query.all()
+    mapped_users = list(map(lambda index: index.serialize(), all_users))
+
+    response_body = jsonify(mapped_users)
+    return response_body, 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
