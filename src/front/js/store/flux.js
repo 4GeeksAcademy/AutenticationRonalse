@@ -29,11 +29,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				);
 				const data = await response.json();
 				localStorage.setItem("token", data.token);
-				if (!response.ok ) {
-				  settingLogIn()
-				  navigate("/private");
+				if (response.ok ) {
+				  getActions().settingLogIn()
+				  console.log(email, password)
+				  return true
 				} else {
 				  console.log("Error:", data);
+				  console.log(email, password)
+				  return false
 				}
 			
 			  },
@@ -41,7 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  registerUser : async (email, password) => {
 
 				const response = await fetch(
-				  "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/singup",
+				  "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/signup",
 				  {
 					method: "POST",
 					headers: {
@@ -56,28 +59,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json();
 				if (response.ok) {
 				  console.log("succes", data)
+				  return true
 				} else {
 				  console.log("Error:", data);
+				  return false
 				}
 			},
-
-			gettingInfo :async () => {
-				const response = await fetch(
-				  "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/private",
-				  {
-					method: "GET",
-					headers: {
-					  "Content-Type": "application/json",
-					  Authorization: `Bearer ${token}`,
-					},
-				  }
-				);
-		
-				const data = await response.json();
-				setStore({ setEmail: [...getStore().setEmail, data.email] });
-				console.log(data.email, "This is the email of the user")
-			  },
-		
 
 			getMessage: async () => {
 				try{

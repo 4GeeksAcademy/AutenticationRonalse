@@ -36,6 +36,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
+# Allow CORS requests to this API
+CORS(app)
+
 # add the admin
 setup_admin(app)
 
@@ -46,7 +49,7 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
-CORS(app)
+
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -99,7 +102,7 @@ def user_login():
     user_email = request.json.get("email", None)
     user_password = request.json.get("password", None)
 
-    user = User.filter.query(email = user_email, password = user_password).first()
+    user = User.query.filter_by(email=user_email, password=user_password).first()
 
     if user is None:
         return jsonify({"Error": "Wrong email or password"}), 401

@@ -10,43 +10,26 @@ export const Login = () => {
   
   const navigate = useNavigate();
 
-  const loginUser = async () => {
-    const response = await fetch(
-      "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email !== "" && password !== "") {
+      const success = await actions.loginUser(email, password);
+      if (success) {
+        navigate("/private");
+      } else {
+        alert("Unexpected Error");
       }
-    );
-    const data = await response.json();
-    localStorage.setItem("token", data.token);
-    if (response.ok) {
-      actions.settingLogIn()
-      navigate("/private");
     } else {
-      console.log("Error:", data);
+      alert("Fields cannot be empty");
     }
   };
-
-
 
   return (
 
     <div className="container text-center mt-5">
       <h1>Login page</h1>
       <form
-        onSubmit={(e) => {
-          if (email != "" && password != "") {
-            e.preventDefault();
-            loginUser();
-          } else alert("Fields cannot be empty");
-        }}
+        onSubmit={e => handleSubmit(e)}
       >
         <div className="form-floating mb-3">
           <input
@@ -57,7 +40,7 @@ export const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label for="floatingInput">Email address</label>
+          <label htmlFor="floatingInput">Email address</label>
         </div>
         <div className="form-floating">
           <input
@@ -68,9 +51,9 @@ export const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label for="floatingPassword">Password</label>
+          <label htmlFor="floatingPassword">Password</label>
         </div>
-        <button className="btn btn-success mt-4">Login</button>
+        <input type="submit" value={"Login"} className="btn btn-success mt-4"></input>
         <Link to="/signup">
           <button className="btn btn-info mx-3 mt-4">register</button>
         </Link>
