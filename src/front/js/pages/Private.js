@@ -10,7 +10,7 @@ export const Private = () => {
   const token = localStorage.getItem("token");
   
   useEffect(() => {
-    const gettingInfo = () => {
+    const gettingInfo = async () => {
       fetch(
         "https://orange-meme-jjjvx4pgr56wf7qq-3001.app.github.dev/private",
         {

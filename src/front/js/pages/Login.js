@@ -13,7 +13,7 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email !== "" && password !== "") {
-      const success = await actions.loginUser(email, password);
+      const success =  actions.loginUser(email, password);
       if (success) {
         navigate("/private");
       } else {
